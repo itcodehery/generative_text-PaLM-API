@@ -13,6 +13,18 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
   String promptResponse = 'Ask anything';
   String? initialResponse;
   String byAIname = '';
+  int tokensLeft = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    PalmAI palm = PalmAI();
+    palm.getTokenCount().then((value) {
+      setState(() {
+        tokensLeft = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +56,14 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text('$tokensLeft tokens left'),
+                    ),
+                  ),
+                  Card(
                     child: SizedBox(
-                      height: 600,
+                      height: 500,
                       width: double.infinity,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -112,7 +130,8 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
                               palm.getText(initialResponse!).then((value) {
                                 setState(() {
                                   promptResponse = value;
-                                  byAIname = 'Google PaLM';
+                                  byAIname =
+                                      'Google PaLM • ${TimeOfDay.now().format(context)}';
                                 });
                               });
                             },
