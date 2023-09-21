@@ -1,5 +1,15 @@
+import 'package:ai_int_app/api.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_int_app/opbrhome.dart';
+import 'package:google_generative_language_api/google_generative_language_api.dart';
+
+void main() async {
+  final Model model = await GenerativeLanguageAPI.getModel(
+      modelName: "models/chat-bison-001", apiKey: Constants.apiKeyPalm);
+  debugPrint('Model Name: ${model.name}');
+  debugPrint('Description: ${model.description}');
+  runApp(const OpticBrain());
+}
 
 //make a OpticBrain state with a bottom navigation bar
 class OpticBrain extends StatelessWidget {

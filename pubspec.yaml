@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_generative_language_api: ^0.2.1
   flutter_dotenv: ^5.1.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -24,4 +25,7 @@ flutter:
   fonts:
     - family: SFProDisplay
       fonts:
-      - asset: assets/SFPRODISPLAY-REGULAR.OTF
+      - asset: assets/SFPRODISPLAYREGULAR.OTF
+    - family: ProductSans
+      fonts:
+      - asset: assets/ProSansBold.ttf
