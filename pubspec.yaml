@@ -26,6 +26,6 @@ flutter:
     - family: SFProDisplay
       fonts:
       - asset: assets/SFPRODISPLAYREGULAR.OTF
-    - family: ProductSans
+    - family: ProductSanPro
       fonts:
       - asset: assets/ProSansBold.ttf
