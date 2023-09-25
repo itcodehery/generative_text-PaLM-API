@@ -1,10 +1,10 @@
-import 'package:ai_int_app/api.dart';
 import 'package:google_generative_language_api/google_generative_language_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //check if this code would work
 class PalmAI {
   //for text based models
-  Future<String> getText(String prompt) async {
+  Future<String> getText(String prompt, String key) async {
     var request = GenerateTextRequest(
       prompt: TextPrompt(text: prompt),
       temperature: 1.0,
@@ -14,7 +14,7 @@ class PalmAI {
     final GeneratedText text = await GenerativeLanguageAPI.generateText(
       modelName: 'models/text-bison-001',
       request: request,
-      apiKey: Constants.apiKeyPalm,
+      apiKey: key,
     );
 
     print(text.candidates.map((candidate) => candidate.output).join('\n'));
@@ -25,7 +25,7 @@ class PalmAI {
   }
 
   //for message based models
-  Future<String> getMessage(String prompt) async {
+  Future<String> getMessage(String prompt, String key) async {
     var request = GenerateMessageRequest(
       prompt: MessagePrompt(
         messages: [
@@ -38,7 +38,7 @@ class PalmAI {
         await GenerativeLanguageAPI.generateMessage(
       modelName: 'models/chat-bison-001',
       request: request,
-      apiKey: Constants.apiKeyPalm,
+      apiKey: key,
     );
 
     String message = generatedMessage.messages.map((e) => e.content).join('\n');
@@ -49,13 +49,13 @@ class PalmAI {
   void getModelDetails() async {}
 
   //to get the token count of the model
-  Future<int> getTokenCount() async {
+  Future<int> getTokenCount(String key) async {
     MessagePrompt prompt =
         MessagePrompt(messages: List.unmodifiable(<String>['get token count']));
     final int tokenCount = await GenerativeLanguageAPI.countMessageTokens(
       modelName: 'models/chat-bison-001',
       request: CountMessageTokensRequest(prompt: prompt),
-      apiKey: Constants.apiKeyPalm,
+      apiKey: key,
     );
 
     print('Token Count: $tokenCount');

@@ -1,19 +1,38 @@
-import 'package:ai_int_app/api.dart';
+import 'package:opticbrain_ai/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:ai_int_app/opbrhome.dart';
-import 'package:google_generative_language_api/google_generative_language_api.dart';
+import 'package:opticbrain_ai/opbrhome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  final Model model = await GenerativeLanguageAPI.getModel(
-      modelName: "models/chat-bison-001", apiKey: Constants.apiKeyPalm);
-  debugPrint('Model Name: ${model.name}');
-  debugPrint('Description: ${model.description}');
   runApp(const OpticBrain());
 }
 
 //make a OpticBrain state with a bottom navigation bar
-class OpticBrain extends StatelessWidget {
+class OpticBrain extends StatefulWidget {
   const OpticBrain({Key? key}) : super(key: key);
+
+  @override
+  State<OpticBrain> createState() => _OpticBrainState();
+}
+
+class _OpticBrainState extends State<OpticBrain> {
+  Future<void> getAPIDetails() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? apikey = prefs.getString('apikey');
+    if (apikey == null) {
+      debugPrint('No API Key found!');
+    } else {
+      apiKey = prefs.getString('apikey');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAPIDetails();
+  }
+
+  String? apiKey;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +54,11 @@ class OpticBrain extends StatelessWidget {
               onBackground: Colors.white,
               surface: Colors.grey.shade900,
               onSurface: Colors.white)),
-      home: const OpticBrainHome(),
+      routes: {
+        '/home': (context) => const OpticBrainHome(),
+        '/splash': (context) => const Splash(),
+      },
+      home: apiKey == null ? const Splash() : const OpticBrainHome(),
     );
   }
 }

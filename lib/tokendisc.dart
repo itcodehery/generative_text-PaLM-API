@@ -21,7 +21,7 @@ class TokenDisc extends StatelessWidget {
             Row(
               children: [
                 const Icon(
-                  Icons.info_outline_rounded,
+                  Icons.warning_amber_rounded,
                   color: Colors.white,
                 ),
                 const SizedBox(width: 10),

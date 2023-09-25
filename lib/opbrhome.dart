@@ -1,7 +1,10 @@
-import 'package:ai_int_app/backdart.dart';
+import 'package:opticbrain_ai/about.dart';
+import 'package:opticbrain_ai/backdart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ai_int_app/tokendisc.dart';
+import 'package:opticbrain_ai/tokendisc.dart';
+import 'package:google_generative_language_api/google_generative_language_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OpticBrainHome extends StatefulWidget {
   const OpticBrainHome({Key? key}) : super(key: key);
@@ -16,12 +19,28 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
   String? finalResponse;
   String byAIname = '';
   int tokensLeft = 0;
+  String? apiKey;
+
+  Future<void> initAI() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    apiKey = prefs.getString("apikey");
+    debugPrint('API Key: $apiKey');
+    final Model model = await GenerativeLanguageAPI.getModel(
+        modelName: "models/chat-bison-001", apiKey: apiKey!);
+    debugPrint('Model Name: ${model.name}');
+    debugPrint('Description: ${model.description}');
+    debugPrint('Tokens Left: ${model.outputTokenLimit}');
+    setState(() {
+      tokensLeft = model.outputTokenLimit;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    initAI();
     PalmAI palm = PalmAI();
-    palm.getTokenCount().then((value) {
+    palm.getTokenCount(apiKey == null ? '' : apiKey!).then((value) {
       setState(() {
         tokensLeft = value;
       });
@@ -46,6 +65,14 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
           style: TextStyle(color: Colors.white38, fontSize: 16),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const AboutPage()));
+              },
+              icon: const Icon(Icons.info_outline_rounded))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -57,28 +84,6 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // TextButton.icon(
-                  //     style: ButtonStyle(
-                  //         shape: MaterialStateProperty.all(
-                  //             RoundedRectangleBorder(
-                  //                 borderRadius: BorderRadius.circular(40))),
-                  //         minimumSize:
-                  //             MaterialStateProperty.all(const Size(40, 40)),
-                  //         backgroundColor:
-                  //             MaterialStateProperty.all(Colors.grey.shade900)),
-                  //     label: const Text(
-                  //       'Clear queries',
-                  //       style: TextStyle(
-                  //           fontFamily: 'ProductSanPro', color: Colors.white60),
-                  //     ),
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         promptResponse = '';
-                  //         finalResponse = null;
-                  //         byAIname = '';
-                  //       });
-                  //     },
-                  //     icon: const Icon(Icons.restore)),
                   const SizedBox(height: 8),
                   TokenDisc(tokensLeft: tokensLeft),
                   Card(
@@ -194,6 +199,7 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
                                     const Size(60, 60)),
                                 backgroundColor: MaterialStateProperty.all(
                                     Colors.grey.shade900)),
+                            tooltip: 'Clear chat',
                             onPressed: () {
                               setState(() {
                                 promptResponse = '';
@@ -216,15 +222,20 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
                                     const Size(60, 60)),
                                 backgroundColor: MaterialStateProperty.all(
                                     Colors.cyan.shade200)),
+                            tooltip: 'Send query',
                             onPressed: () {
                               PalmAI palm = PalmAI();
-                              palm.getText(finalResponse!).then((value) {
+                              palm
+                                  .getText(finalResponse!, apiKey!)
+                                  .then((value) {
                                 setState(() {
                                   promptResponse = value;
                                   byAIname =
-                                      'Google PaLM • ${TimeOfDay.now().format(context)}';
-                                  palm.getTokenCount().then((value) {
-                                    tokensLeft = value;
+                                      'OpticBrain AI • ${TimeOfDay.now().format(context)}';
+                                  palm.getTokenCount(apiKey!).then((value) {
+                                    setState(() {
+                                      tokensLeft = value;
+                                    });
                                   });
                                 });
                               });
