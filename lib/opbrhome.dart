@@ -57,6 +57,8 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
 
   @override
   Widget build(BuildContext context) {
+    final messenger = ScaffoldMessenger.of(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -121,13 +123,17 @@ class OpticBrainHomeState extends State<OpticBrainHome> {
                                   const Spacer(),
                                   IconButton(
                                       onPressed: () async {
-                                        if (initialResponse != null) {
+                                        if (promptResponse.isNotEmpty) {
+                                          debugPrint('Copying response...');
                                           await Clipboard.getData(
                                               promptResponse);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                                  content: Text(
-                                                      'Response copied to clipboard!')));
+                                          messenger.showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'Response copied to clipboard!')));
+                                        } else {
+                                          messenger.showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'No response to copy!')));
                                         }
                                       },
                                       tooltip: 'Copy response',

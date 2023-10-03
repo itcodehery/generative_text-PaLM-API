@@ -28,8 +28,8 @@ class _OpticBrainState extends State<OpticBrain> {
 
   @override
   void initState() {
-    super.initState();
     getAPIDetails();
+    super.initState();
   }
 
   String? apiKey;

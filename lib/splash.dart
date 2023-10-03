@@ -47,14 +47,14 @@ class _SplashState extends State<Splash> {
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image.asset(
-                  'assets/OpticBrainWhite.png',
-                  width: 60,
-                  height: 60,
-                ),
+                // Image.asset(
+                //   'assets/OpticBrainWhite.png',
+                //   width: 60,
+                //   height: 60,
+                // ),
                 const Text('Welcome to OpticBrain AI',
                     style: TextStyle(
                         fontSize: 28,
@@ -69,7 +69,7 @@ class _SplashState extends State<Splash> {
                       color: Colors.cyan.shade200,
                       fontFamily: 'SFProDisplay'),
                 ),
-                const SizedBox(height: 120),
+                const SizedBox(height: 60),
                 TextField(
                   style: const TextStyle(
                       fontSize: 14,

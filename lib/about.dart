@@ -151,7 +151,7 @@ class AboutPage extends StatelessWidget {
                   direction: Axis.vertical,
                   children: [
                     Text(
-                        'OpticBrain AI is a API testing mobile chat app, supercharged with Google\'s smart PaLM Language Model and the Google MakerSuite. It\'s a query based AI model in your pocket. Whether you need help, info, or just any question, OpticBrain AI gets you. Plus, it learns from you, so every chat feels like it\'s tailor-made just for you. Say hello to the mini version of ChatGPT!'),
+                        'OpticBrain AI is a API testing mobile query bot, powered by Google\'s smart PaLM Language Model and the Google MakerSuite. It\'s a query based AI model in your pocket. Whether you need help, info, or just any question, OpticBrain AI gets you. Say hello to the mini version of ChatGPT!'),
                     SizedBox(height: 20),
                     Text(
                         'This app was made using Google\'s Flutter Cross Platform Frontend Framework with the Dart Programming Language, SharedPreferences to store data, and Google\'s PaLM Model and MakerSuite.'),
