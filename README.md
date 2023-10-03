@@ -1,16 +1,7 @@
-# ai_int_app
+# OpticBrain AI
 
-A new Flutter project.
+A query bot AI assistant that uses Google's PaLM, a large language model, to understand and respond to natural language queries. 
+It is built using Flutter, a cross-platform UI framework, and can be deployed to mobile devices, web browsers, and other platforms.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+OpticBrain is still under development, but is available to download and contribute to. To download it, select Code and clone this repository and build
+this app. To contribute to it, raise an issue, solve and submit a pull request. 
